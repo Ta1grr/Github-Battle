@@ -6,10 +6,11 @@ import Popular from './components/Popular.js';
 class App extends React.Component {
 
     render() {
-        return 
+        return (
             <div className='container'>
                 <Popular />
             </div>
+        )
     }
 }
 
