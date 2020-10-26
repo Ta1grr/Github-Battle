@@ -39,7 +39,7 @@ li {
     font-size: 18px;
     font-weight: bold;
     text-decoration: none;
-    color: 'black';
+    color: inherit;
 }
 
 .grid {
@@ -48,7 +48,7 @@ li {
 }
 
 .space-around {
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .header-lg {
@@ -103,6 +103,7 @@ li {
 
 .bg-light {
     background: rgba( 0, 0, 0, 0.08);
+    border-radius: 3px;
 }
 
 .repo {
@@ -206,4 +207,30 @@ battle-instructions {
 .dark-btn:disabled {
     background: #f2f2f2;
     color: #c7c7c7;
+}
+
+.players-container {
+    margin: 100px 0;
+}
+
+.avatar-small {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+}
+
+.player-info {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.player-info .link {
+    margin-left: 10px;
+}
+
+.btn-space {
+    margin: 40px auto;
 }
