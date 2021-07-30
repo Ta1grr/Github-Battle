@@ -3,6 +3,30 @@ import { battle } from '../utils/api'
 import { FaCompass, FaBriefcase, FaUsers, FaUserFriends, FaCode, FaUser } from 'react-icons/fa'
 import Card from './Card'
 import PropTypes from 'prop-types'
+import Loading from './Loading'
+import Tooltip from './Tooltip'
+
+const styles = {
+    container: {
+        position: 'relative',
+        display: 'flex'
+    },
+    tooltip: {
+        boxSizing: 'border-box',
+        position: 'absolute',
+        width: '160px',
+        bottom: '100%',
+        left: '50%',
+        marginLeft: '-80px',
+        borderRadius: '3px',
+        backgroundColor: 'hsla(0, 0%, 20%, 0.9)',
+        padding: '7px',
+        marginBottom: '5px',
+        color: '#fff',
+        textAlign: 'center',
+        fontSize: '14px',
+    }
+}
 
 function ProfileList ({profile}) {
     return (
@@ -11,16 +35,20 @@ function ProfileList ({profile}) {
                 <FaUser color='rgb(239, 115, 115)' size={22} />
                 {profile.name}
             </li>
-            {winner.profile.location && (
+            {profile.location && (
                 <li>
-                    <FaCompass color='rgb(144, 115, 255)' size={22} />
-                    {profile.location}
+                    <Tooltip text="User's location" >
+                        <FaCompass color='rgb(144, 115, 255)' size={22} />
+                        {profile.location}
+                    </Tooltip>
                 </li>
             )}
-            {winner.profile.company && (
+            {profile.company && (
                 <li>
-                    <FaBriefcase color='#795548' size={22} />
-                    {profile.company}
+                    <Tooltip text="User's company" >
+                        <FaBriefcase color='#795548' size={22} />
+                        {profile.company}
+                    </Tooltip>
                 </li>
             )}
             <li>
@@ -75,61 +103,50 @@ export default class Results extends React.Component {
         const { winner, loser, error, loading } = this.state;
 
         if (loading === true) {
-            return <p>LOADING</p>
+            return <Loading />
         }
 
         if (error) {
             return (
-                <p className="center-text error">{error}</p>
+                <p className="center-text error">{error}Error</p>
             )
         }
 
         return (
-            <div className='grid space-around container-sm'>
-                <Card 
-                    header={winner.score === loser.score ? 'Tie' : 'Winner'}
-                    subheader={`Score: ${winner.score.toLocaleString()}`}
-                    avatar={winner.profile.avatar_url}
-                    href={winner.profile.html_url}
-                    name={winner.profile.login}
+            <React.Fragment>
+                <div className='grid space-around container-sm'>
+                    <Card 
+                        header = {winner.score === loser.score ? 'Tie' : 'Winner'}
+                        subheader = {`Score: ${winner.score.toLocaleString()}`}
+                        avatar = {winner.profile.avatar_url}
+                        href = {winner.profile.html_url}
+                        name = {winner.profile.login}
+                    >
+                        <ProfileList profile={winner.profile} />
+                    </Card>
+                    <Card
+                        header = {winner.score === loser.score ? 'Tie' : 'Loser'}
+                        subheader = {`Score: ${loser.score.toLocaleString()}`}
+                        avatar = {loser.profile.avatar_url}
+                        name = {loser.profile.login}
+                        href = {loser.profile.html_url}
+                    >
+                        <ProfileList profile={loser.profile} />
+                    </Card>
+                </div>
+                <button
+                    onClick = {this.props.onReset}
+                    className = 'btn dark-btn btn-space'
                 >
-                    <ProfileList profile={winner.profile} />
-                </Card>
-                <Card
-                    header = {winner.score === loser.score ? 'Tie' : 'Loser'}
-                    subheader = {`Score: ${loser.score.toLocaleString()}`}
-                    avatar = {loser.profile.avatar_url}
-                    name = {loser.profile.login}
-                    href = {loser.profile.html_url}
-                >
-                    <ul className='card-list'>
-                        <li>
-                            <FaUser color='rgb(239, 115, 115)' size={22} />
-                            {loser.profile.name}
-                        </li>
-                        {loser.profile.location && (
-                            <li>
-                                <FaCompass color='rgb(144, 115, 255)' size={22} />
-                                {loser.profile.location}
-                            </li>
-                        )}
-                        {loser.profile.company && (
-                            <li>
-                                <FaBriefcase color='#795548' size={22} />
-                                {loser.profile.company}
-                            </li>
-                        )}
-                        <li>
-                            <FaUsers color='rgb(129, 195, 245)' size={22} />
-                            {loser.profile.followers.toLocaleString()} followers
-                        </li>
-                        <li>
-                            <FaUserFriends color='rgb(64, 183, 95)' size={22} />
-                            {loser.profile.following.toLocaleString()} following
-                        </li>
-                    </ul>
-                </Card>
-            </div>
+                    Reset
+                </button>
+            </React.Fragment>
         )
     }
+}
+
+Results.propTypes = {
+    playerOne: PropTypes.string.isRequired,
+    playerTwo: PropTypes.string.isRequired,
+    onReset: PropTypes.func.isRequired
 }

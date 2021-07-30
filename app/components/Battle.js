@@ -60,7 +60,8 @@ class PlayerInput extends React.Component {
 				<div className='row player-inputs'>
 					<input 
 						type='text' 
-						id='username' 
+						id='username'
+						className='input-light' 
 						placeholder='github username' 
 						autoComplete='off'
 						value={this.state.username}
@@ -86,7 +87,7 @@ PlayerInput.propTypes = {
 
 function PlayerPreview({ username, onReset, label }) {
 	return (
-		<div className='column-player'>
+		<div className='column player'>
 			<h3 className='player-label'>{label}</h3>
 				<div className='row bg-light'>
 					<div className='player-info'>
@@ -148,7 +149,17 @@ export default class Battle extends React.Component {
 		const { playerOne, playerTwo, battle } = this.state
 
 		if(battle === true) {
-			return <Results playerOne={playerOne} playerTwo={playerTwo} />
+			return (
+				<Results 
+					playerOne={playerOne} 
+					playerTwo={playerTwo}
+					onReset={()=> this.setState({
+						playerOne: null,
+						playerTwo: null,
+						battle: false
+					})}
+				/>
+			)
 		}
 
         return ( 
@@ -186,7 +197,7 @@ export default class Battle extends React.Component {
 						<button
 							className='btn dark-btn btn-space'
 							onClick={() => this.setState({battle: true})}
-							>
+						>
 							Battle
 						</button>
 					)}
