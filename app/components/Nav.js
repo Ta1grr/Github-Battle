@@ -3,18 +3,20 @@ import { ThemeConsumer } from '../contexts/theme'
 
 export default function Nav() {
     return (
+        <div>
         <ThemeConsumer>
-            {({ theme, toggleTheme}) => (
+            {({theme, toggleTheme}) => (
                 <nav className='row space-between'>
                     <button
                         style={{fontSize: 30}}
                         className='btn-clear'
-                        onClick={toggleTheme}    
+                        onClick={toggleTheme}   
                     >
                         {theme === 'light' ? '🔦' : '💡'}
                     </button>
                 </nav>
             )}
         </ThemeConsumer>
+        </div>
     )
 }
