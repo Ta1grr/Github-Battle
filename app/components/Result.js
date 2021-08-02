@@ -5,6 +5,7 @@ import Card from './Card'
 import PropTypes from 'prop-types'
 import Loading from './Loading'
 import Tooltip from './Tooltip'
+import Hover from './Hover'
 
 const styles = {
     container: {
